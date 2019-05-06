@@ -5,7 +5,7 @@ using FantasyManager.Core.Models;
 
 namespace FantasyManager.Infrastructure.Context
 {
-    public class TeamManagerContext : DbContext
+    public class FantasyManagerContext : DbContext
     {
         #region Constructors
 
@@ -13,10 +13,10 @@ namespace FantasyManager.Infrastructure.Context
 
         private readonly ILoggerFactory _loggerFactory;
 
-        public TeamManagerContext( DbContextOptions<TeamManagerContext> options )
+        public FantasyManagerContext( DbContextOptions<FantasyManagerContext> options )
             : base( options ) { }
 
-        public TeamManagerContext( DbContextOptions<TeamManagerContext> options, IOptions<DbContextSettings> settings, ILoggerFactory loggerFactory )
+        public FantasyManagerContext( DbContextOptions<FantasyManagerContext> options, IOptions<DbContextSettings> settings, ILoggerFactory loggerFactory )
             : base( options )
         {
             _loggerFactory = loggerFactory;
@@ -38,7 +38,9 @@ namespace FantasyManager.Infrastructure.Context
                 // enable in memory database 
                 if ( !string.IsNullOrEmpty( _settings?.ConnectionString ) )
                 {
-                    optionsBuilder.UseInMemoryDatabase( databaseName: "FantasyManager" );
+                    optionsBuilder.UseInMemoryDatabase(
+                        databaseName: "FantasyManager" );
+                    optionsBuilder.UseQueryTrackingBehavior( QueryTrackingBehavior.NoTracking );
                 }
             }
 

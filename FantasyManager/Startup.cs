@@ -35,7 +35,11 @@ namespace FantasyManager.Web
 
             #region Dependency Injection
 
-            services.AddDbContext<TeamManagerContext>( options => options.UseInMemoryDatabase( databaseName: "FantasyManager" ) );
+            services.AddDbContext<FantasyManagerContext>( options =>
+            {
+                options.UseInMemoryDatabase( databaseName: "FantasyManager" );
+                options.UseQueryTrackingBehavior( QueryTrackingBehavior.NoTracking );
+            } );
 
             // repository  
             services.AddScoped<IDbRepository, DbRepository>();

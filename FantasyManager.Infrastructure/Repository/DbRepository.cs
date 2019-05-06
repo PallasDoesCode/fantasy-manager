@@ -11,7 +11,7 @@ namespace FantasyManager.Infrastructure.Repository
     {
         #region Constructor
 
-        public DbRepository(TeamManagerContext dbContext)
+        public DbRepository(FantasyManagerContext dbContext)
             : base(dbContext) { }
 
         #endregion
