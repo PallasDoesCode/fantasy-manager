@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FantasyManager.Core.Extensions;
+using System;
 using System.ComponentModel;
 
 namespace FantasyManager.Core.Models
 {
-    public enum Position
+    public enum PlayerPosition
     {
         [Description( "Quarterback" )]
         Quarterback,
@@ -32,6 +33,9 @@ namespace FantasyManager.Core.Models
     /// </summary>
     public class Player
     {
+
+        private PlayerPosition _position;
+
         #region Properties
 
         public long Id { get; set; }
@@ -44,7 +48,40 @@ namespace FantasyManager.Core.Models
 
         public string Status { get; set; }
 
-        public Position Position { get; set; }
+        public string Position
+        {
+            get
+            {
+                return _position.GetDescription();
+            }
+            set
+            {
+                switch( value )
+                {
+                    case "Quarterback":
+                        _position = PlayerPosition.Quarterback;
+                        break;
+                    case "Running Back":
+                        _position = PlayerPosition.RunningBack;
+                        break;
+                    case "Wide Receiver":
+                        _position = PlayerPosition.WideReceiver;
+                        break;
+                    case "Tight End":
+                        _position = PlayerPosition.TightEnd;
+                        break;
+                    case "FLEX":
+                        _position = PlayerPosition.FLEX;
+                        break;
+                    case "Defense and Special Teams":
+                        _position = PlayerPosition.DST;
+                        break;
+                    case "Kicker":
+                        _position = PlayerPosition.Kicker;
+                        break;
+                }
+            }
+        }
 
         // in inches
         public int Height { get; set; }

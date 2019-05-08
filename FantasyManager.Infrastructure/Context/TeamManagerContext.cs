@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using FantasyManager.Core.Models;
+using Microsoft.EntityFrameworkCore.Proxies;
+using Microsoft.EntityFrameworkCore.InMemory.ValueGeneration.Internal;
 
 namespace FantasyManager.Infrastructure.Context
 {
@@ -46,6 +48,11 @@ namespace FantasyManager.Infrastructure.Context
 
             // enable logging 
             optionsBuilder.UseLoggerFactory( _loggerFactory );
+
+            // disable lazy loading 
+            // lazy loading can hurt performance, so we will use Eager Loading over lazy loading
+            // by making use of .Include and .IncludeMultiple operations that are available 
+            optionsBuilder.UseLazyLoadingProxies( false );
         }
 
         protected override void OnModelCreating( ModelBuilder modelBuilder )
@@ -58,9 +65,6 @@ namespace FantasyManager.Infrastructure.Context
 
             // configure each entity 
             ConfigureEntities( modelBuilder );
-
-            // seed data
-            SeedData( modelBuilder );
         }
 
         #region Configure Entities 
@@ -77,7 +81,8 @@ namespace FantasyManager.Infrastructure.Context
             modelBuilder.Entity<Player>( options =>
             {
                 // use identity
-                options.HasKey( k => k.Id );
+                options.Property( k => k.Id)
+                    .HasValueGenerator<InMemoryIntegerValueGenerator<long>>();
 
                 // set property values 
                 options.Property( p => p.Name ).HasMaxLength( 50 ).IsRequired();
@@ -137,51 +142,6 @@ namespace FantasyManager.Infrastructure.Context
             } );
 
             #endregion
-
-            #endregion
-        }
-
-        #endregion
-
-        #region Seed Data
-        protected void SeedData( ModelBuilder modelBuilder )
-        {
-            #region Teams
-
-            modelBuilder.Entity<Team>().HasData(
-                new Team { Id = 1, Name = "Arizona Cardinals" },
-                new Team { Id = 2, Name = "Atlanta Falcons" },
-                new Team { Id = 3, Name = "Baltimore Ravens" },
-                new Team { Id = 4, Name = "Buffalo Bills" },
-                new Team { Id = 5, Name = "Carolina Panthers" },
-                new Team { Id = 6, Name = "Chicago Bears" },
-                new Team { Id = 7, Name = "Cincinnati Bengals" },
-                new Team { Id = 8, Name = "Cleveland Browns" },
-                new Team { Id = 9, Name = "Dallas Cowboyws" },
-                new Team { Id = 10, Name = "Denver Broncos" },
-                new Team { Id = 11, Name = "Detroit Lions" },
-                new Team { Id = 12, Name = "Green Bay Packers" },
-                new Team { Id = 13, Name = "Houston Texans" },
-                new Team { Id = 14, Name = "Indiana Colts" },
-                new Team { Id = 15, Name = "Jacksonville Jaguars" },
-                new Team { Id = 16, Name = "Kansas City Chiefs" },
-                new Team { Id = 17, Name = "Los Angeles Chargers" },
-                new Team { Id = 18, Name = "Los Angeles Rams" },
-                new Team { Id = 19, Name = "Miami Dolphins" },
-                new Team { Id = 20, Name = "Minnesota Vikings" },
-                new Team { Id = 21, Name = "New England Patriots" },
-                new Team { Id = 22, Name = "New Orleans Saints" },
-                new Team { Id = 23, Name = "New York Giants" },
-                new Team { Id = 24, Name = "New York Jets" },
-                new Team { Id = 25, Name = "Oakland Raiders" },
-                new Team { Id = 26, Name = "Philadelphia Eagles" },
-                new Team { Id = 27, Name = "Pittsburgh Steeler" },
-                new Team { Id = 28, Name = "San Francisco 49ers" },
-                new Team { Id = 29, Name = "Seattle Seahawks" },
-                new Team { Id = 30, Name = "Tampa Bay Buccaneers" },
-                new Team { Id = 31, Name = "Tennessee Titans" },
-                new Team { Id = 32, Name = "Washington Redskins" }
-            );
 
             #endregion
         }

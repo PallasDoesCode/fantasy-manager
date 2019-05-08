@@ -8,7 +8,7 @@ namespace FantasyManager.Core.Models
 
         public long Id { get; set; }
 
-        public DateTime Season { get; set; } // i.e. 2016, 2017, 2018, etc.
+        public long Season { get; set; } // i.e. 2016, 2017, 2018, etc.
 
         #region Receiving
 
@@ -20,7 +20,7 @@ namespace FantasyManager.Core.Models
 
         public int? ReceivingYards { get; set; } // YDS
 
-        public int? YardsPerReception { get; set; } // AVG
+        public double? YardsPerReception { get; set; } // AVG
 
         public int? ReceivingTouchdowns { get; set; } // TD
 

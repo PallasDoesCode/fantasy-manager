@@ -10,9 +10,13 @@ namespace FantasyManager.Infrastructure.Interfaces
 
         Task<int> DeletePlayer( Player player );
 
-        Task<Player> GetPlayerById( long id );
+        Player GetPlayerById( long id );
 
-        Task<IEnumerable<Player>> ListPlayers();
+        Task<Statistics> GetStatisticsByPlayer( long id );
+
+        IEnumerable<Player> ListPlayers();
+
+        Task<IEnumerable<Player>> ListPlayersByTeamId( long id );
 
         Task<int> UpdatePlayer( Player player );
     }

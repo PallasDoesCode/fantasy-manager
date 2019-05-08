@@ -1,4 +1,4 @@
-# team-manager
+# fantasy-manager
 
 ### Challenge:
 
@@ -14,3 +14,12 @@ Please use any version of .NET Core for the development of this challenge. You m
 - As a contributor, I should be able to add new teams and players and add players to a team.
 - As a contributor, I should be able to edit and remove teams and players and their statistics and avatars.
 - It is not a requirement to add authentication or security to the application.
+
+
+### Getting Started for Developers
+1. Clone the repo.
+2. Open the solution in Visual Studio.
+3. Build the solution.
+3. Run the solution using Start Debugging or Start Without Debugging. The options is yours.
+
+**Note:** The application was developed entirely using the the Entity Framework Core In Memory database provider; therefore, other than running the application no additional setup is required.

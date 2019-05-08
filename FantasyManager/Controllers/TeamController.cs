@@ -23,7 +23,6 @@ namespace FantasyManager.Web.Controllers
             return Ok(result);
         }
 
-
         [HttpGet( "{id}" )]
         public ActionResult GetTeamById( long id )
         {
@@ -31,21 +30,21 @@ namespace FantasyManager.Web.Controllers
             return Ok( result );
         }
 
-        [HttpPost]
+        [HttpPost( "create" )]
         public ActionResult CreateTeam( [FromBody] Team team )
         {
             var result = _teamManager.AddTeam( team );
             return Ok( result );
         }
 
-        [HttpPost]
+        [HttpPost( "update" )]
         public ActionResult UpdateTeam( [FromBody] Team team )
         {
             var result = _teamManager.UpdateTeam( team );
             return Ok( result );
         }
 
-        [HttpPost]
+        [HttpPost( "delete" )]
         public ActionResult DeleteTeam( [FromBody] Team team )
         {
             var result = _teamManager.DeleteTeam( team );

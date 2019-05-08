@@ -16,12 +16,18 @@ namespace FantasyManager.Web.Controllers
         }
 
         [HttpGet( "list" )]
-        public async Task<ActionResult> ListAllPlayers()
+        public ActionResult ListAllPlayers()
         {
-            var result = await _playerManager.ListPlayers();
+            var result = _playerManager.ListPlayers();
             return Ok( result );
         }
 
+        [HttpGet( "list/{teamId}" )]
+        public async Task<ActionResult> ListAllPlayers( long teamId )
+        {
+            var result = await _playerManager.ListPlayersByTeamId( teamId );
+            return Ok( result );
+        }
 
         [HttpGet( "{id}" )]
         public ActionResult GetPlayerById( long id )
@@ -30,21 +36,21 @@ namespace FantasyManager.Web.Controllers
             return Ok( result );
         }
 
-        [HttpPost]
+        [HttpPost( "create" )]
         public ActionResult CreatePlayer( [FromBody] Player player )
         {
-            var result = _playerManager.AddPlayer( player );
+            var result = _playerManager.AddPlayer( player ).Result;
             return Ok( result );
         }
 
-        [HttpPost]
+        [HttpPost( "update" )]
         public ActionResult UpdatePlayer( [FromBody] Player player )
         {
             var result = _playerManager.UpdatePlayer( player );
             return Ok( result );
         }
 
-        [HttpPost]
+        [HttpPost( "delete" )]
         public ActionResult DeletePlayer( [FromBody] Player player )
         {
             var result = _playerManager.DeletePlayer( player );
