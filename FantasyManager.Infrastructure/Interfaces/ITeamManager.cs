@@ -13,7 +13,7 @@ namespace FantasyManager.Infrastructure.Interfaces
 
         Task<Team> GetTeamById( long id );
 
-        Task<IEnumerable<Team>> ListTeams();
+        IEnumerable<Team> ListTeams();
 
         Task<int> UpdateTeam( Team team );
     }

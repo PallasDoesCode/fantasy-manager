@@ -5,30 +5,44 @@ export class Teams extends Component {
     static displayName = Teams.name;
 
     constructor(props) {
-        super(props);
+        super( props );
+
         this.state = {
             teams: [],
+            profileModal: false,
             editModal: false,
             deleteModal: false,
+            teamToView: {
+                roster: {}
+            },
             teamToEdit: {},
             teamToDelete: {}
         };
 
         fetch('api/team/list')
-            .then(response => {
+            .then( response => {
                 return response.json();
-            })
-            .then(data => {
-                this.setState({
+            } )
+            .then( data => {
+                this.setState(
+                {
                     teams: data
-                });
-            });
+                } );
+            } );
 
+        this.toggleProfileModel = this.toggleProfileModel.bind( this );
         this.toggleEditModel = this.toggleEditModel.bind( this );
         this.toggleDeleteModel = this.toggleDeleteModel.bind(this);
 
         this.updateTeam = this.updateTeam.bind( this );
         this.deleteTeam = this.deleteTeam.bind( this );
+    }
+
+    toggleProfileModel( team ) {
+        this.setState( {
+            profileModal: !this.state.profileModal,
+            teamToView: team
+        } );
     }
 
     toggleEditModel( team ) {
@@ -110,6 +124,8 @@ export class Teams extends Component {
                             <tr key={team.name}>
                                 <td>{team.name}</td>
                                 <td className="text-right">
+                                    <button className="btn btn-primary" onClick={() => this.toggleProfileModel( team )}>View Team Profile</button>
+                                    &nbsp;
                                     <button className="btn btn-success" onClick={() => this.toggleEditModel( team )}>Edit</button>
                                     &nbsp;
                                     <button className="btn btn-danger" onClick={() => this.toggleDeleteModel( team )}>Delete</button>
@@ -118,6 +134,26 @@ export class Teams extends Component {
                         )}
                     </tbody>
                 </table>
+
+                <Modal isOpen={this.state.profileModal} toggle={this.toggleProfileModel}>
+                    <ModalHeader>Player Profile</ModalHeader>
+                    <ModalBody>
+                        <h1>{this.state.teamToView.name}</h1>
+                        <img alt={this.state.teamToView.name} src={"data:image/png;base64," + this.state.teamToView.avatar} height="100" width="150" />
+                        <br />< br />
+                        <ul>
+                            {console.log( JSON.stringify( this.state.teamToView ) )}
+                            {this.state.teamToview && this.state.teamToView.roster.map( player =>
+
+                                <li>{player.name}</li>
+                            )}
+                            <li>&nbsp;</li>
+                        </ul>        
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color='success' onClick={() => this.toggleProfileModel( this.state.teamToView )}>Close</Button>
+                    </ModalFooter>
+                </Modal>
 
                 <Modal isOpen={this.state.editModal} toggle={this.toggleEditModel}>
                     <ModalHeader>Edit Team</ModalHeader>

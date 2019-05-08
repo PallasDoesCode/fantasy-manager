@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using FantasyManager.Core.Models;
@@ -35,10 +36,16 @@ namespace FantasyManager.Infrastructure.Managers
             return await _repository.GetByIdAsync<Team>( id );
         }
 
-        public async Task<IEnumerable<Team>> ListTeams()
+        public IEnumerable<Team> ListTeams()
         {
-            var data = await _repository.ListAsync<Team>();
-            return data;
+            var teams = _repository.ListAsync<Team>().Result;
+
+            foreach (var team in teams)
+            {
+                team.Roster = GetTeamRoster( team.Id ).ToList<Player>();
+            }
+
+            return teams;
         }
 
         public async Task<int> AddTeam( Team team )
@@ -57,5 +64,13 @@ namespace FantasyManager.Infrastructure.Managers
         }
 
         #endregion
+
+        private IQueryable<Player> GetTeamRoster( long id )
+        {
+            if ( id <= 0 )
+                throw new ArgumentException( "id must be greater than 0" );
+
+            return _repository.Get<Player>( o => o.TeamId == id );
+        }
     }
 }

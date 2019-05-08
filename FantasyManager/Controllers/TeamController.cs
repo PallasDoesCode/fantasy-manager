@@ -17,9 +17,9 @@ namespace FantasyManager.Web.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<ActionResult> ListAllTeams()
+        public ActionResult ListAllTeams()
         {
-            var result = await _teamManager.ListTeams();
+            var result = _teamManager.ListTeams();
             return Ok(result);
         }
 

@@ -20,10 +20,10 @@ export class Players extends Component {
         }
 
         fetch('api/player/list')
-            .then(response => {
+            .then( response => {
                 return response.json();
-            })
-            .then(data => {
+            } )
+            .then( data => {
                 this.setState(
                 {
                     players: data
